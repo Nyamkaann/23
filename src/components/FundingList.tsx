@@ -1,0 +1,103 @@
+import { useState } from 'react';
+import { FundingEntry } from '../types/funding';
+import { initialFunding } from '../data/initialFunding';
+
+export default function FundingList() {
+  const [entries] = useState<FundingEntry[]>(initialFunding);
+  const total = entries.reduce((sum, entry) => sum + entry.amount, 0);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-6 sm:py-12 px-3 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">
+            Funding Tracker
+          </h1>
+          <p className="text-base sm:text-lg text-gray-600">
+            Total Contributions: <span className="font-semibold text-indigo-600">₮{total.toLocaleString()}</span>
+          </p>
+        </div>
+
+        {/* Cards Grid */}
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+          {entries.map((entry) => (
+            <div
+              key={entry.id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100"
+            >
+              <div className="p-4 sm:p-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                      <span className="text-indigo-600 font-semibold text-base sm:text-lg">
+                        {entry.name.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-800 break-words">
+                        {entry.name}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="text-right ml-2">
+                    <p className="text-base sm:text-lg font-bold text-indigo-600 whitespace-nowrap">
+                      ₮{entry.amount.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Total Section */}
+        <div className="mt-8 sm:mt-12 bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-100">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <div className="mb-4 sm:mb-0">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Total Funding</h2>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                From {entries.length} contributors
+              </p>
+            </div>
+            <div className="text-left sm:text-right">
+              <p className="text-2xl sm:text-3xl font-bold text-indigo-600">
+                ₮{total.toLocaleString()}
+              </p>
+            </div>
+          </div>
+          
+          {/* Progress Bar */}
+          <div className="mt-4 sm:mt-6">
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-indigo-600 rounded-full animate-pulse"
+                style={{ width: '100%' }}
+              />
+            </div>
+          </div>
+
+          {/* Mobile Stats */}
+          <div className="grid grid-cols-2 gap-4 mt-4 sm:hidden">
+            <div className="bg-indigo-50 rounded-lg p-3 text-center">
+              <p className="text-sm text-indigo-600 font-medium">Average</p>
+              <p className="text-lg font-bold text-indigo-700">
+                ₮{Math.round(total / entries.length).toLocaleString()}
+              </p>
+            </div>
+            <div className="bg-indigo-50 rounded-lg p-3 text-center">
+              <p className="text-sm text-indigo-600 font-medium">Contributors</p>
+              <p className="text-lg font-bold text-indigo-700">{entries.length}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-6 text-center text-sm text-gray-500">
+          <p className="hidden sm:block">Last updated: {new Date().toLocaleDateString()}</p>
+          <p className="sm:hidden">Updated: {new Date().toLocaleDateString()}</p>
+        </div>
+      </div>
+    </div>
+  );
+} 
