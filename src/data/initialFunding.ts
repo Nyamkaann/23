@@ -17,4 +17,6 @@ export const initialFunding = [
   { id: "16", name: "Ba Khulan", amount: 70000 }, //Ba Khulan
   { id: "17", name: "Khorvoo", amount: 15000 }, //Khorvoo
   { id: "18", name: "Anar", amount: 100000 }, //Anar
+  { id: "19", name: "Davaarintzen", amount: 100000 }, //Davaarintsen
+  { id: "20", name: "Nandia", amount: 50000 }, //Nandia
 ]; 
