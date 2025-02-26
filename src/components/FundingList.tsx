@@ -17,6 +17,20 @@ export default function FundingList() {
     });
   };
 
+  const isTopDonator = (amount: number) => amount >= 100000;
+
+  const getHighestAmount = (entries: FundingEntry[]) => {
+    return Math.max(...entries.map(entry => entry.amount));
+  };
+
+  const getDonorTier = (amount: number, entries: FundingEntry[]) => {
+    const highestAmount = getHighestAmount(entries);
+    if (amount === highestAmount) return 'highest';
+    if (amount >= 100000) return 'top';
+    if (amount >= 95000) return 'high';
+    return 'normal';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-6 sm:py-12 px-3 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
@@ -97,13 +111,21 @@ export default function FundingList() {
           {entries.map((entry) => (
             <div
               key={entry.id}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100"
+              className={`bg-white rounded-xl shadow-sm transition-all duration-300 overflow-hidden border ${
+                getDonorTier(entry.amount, entries) === 'highest'
+                  ? 'border-yellow-300 bg-gradient-to-r from-yellow-50 via-white to-yellow-50 hover:shadow-yellow-200 hover:scale-102 animate-shine'
+                  : getDonorTier(entry.amount, entries) === 'top'
+                  ? 'border-blue-200 bg-gradient-to-r from-blue-50 to-white hover:shadow-blue-100'
+                  : 'border-gray-100 hover:shadow-md'
+              }`}
             >
               <div className="p-4 sm:p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     {entry.profilePic ? (
-                      <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden">
+                      <div className={`h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden ${
+                        getDonorTier(entry.amount, entries) === 'highest' ? 'ring-2 ring-yellow-400' : ''
+                      }`}>
                         <Image
                           src={entry.profilePic}
                           alt={`${entry.name}'s profile`}
@@ -113,16 +135,35 @@ export default function FundingList() {
                         />
                       </div>
                     ) : (
-                      <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-blue-100 flex items-center justify-center ring-2 ring-blue-50">
-                        <span className="text-blue-600 font-bold text-xl sm:text-2xl">
+                      <div className={`h-12 w-12 sm:h-14 sm:w-14 rounded-full flex items-center justify-center ${
+                        getDonorTier(entry.amount, entries) === 'highest'
+                          ? 'bg-yellow-100 ring-2 ring-yellow-400'
+                          : getDonorTier(entry.amount, entries) === 'top'
+                          ? 'bg-blue-100 ring-2 ring-blue-400'
+                          : 'bg-blue-100 ring-2 ring-blue-50'
+                      }`}>
+                        <span className={`font-bold text-xl sm:text-2xl ${
+                          getDonorTier(entry.amount, entries) === 'highest' ? 'text-yellow-700' : ''
+                        }`}>
                           {entry.name.charAt(0)}
                         </span>
                       </div>
                     )}
                     <div>
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-800 break-words">
-                        {entry.name}
-                      </h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-800 break-words">
+                          {entry.name}
+                        </h3>
+                        {getDonorTier(entry.amount, entries) === 'highest' ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            <span className="mr-1">👑</span> Top Contributor
+                          </span>
+                        ) : getDonorTier(entry.amount, entries) === 'top' && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Top Donor
+                          </span>
+                        )}
+                      </div>
                       {entry.timestamp && (
                         <p className="text-xs text-gray-500">
                           {formatDate(new Date(entry.timestamp))}
@@ -131,7 +172,9 @@ export default function FundingList() {
                     </div>
                   </div>
                   <div className="text-right ml-2">
-                    <p className="text-base sm:text-lg font-bold text-blue-600 whitespace-nowrap">
+                    <p className={`text-base sm:text-lg font-bold whitespace-nowrap ${
+                      getDonorTier(entry.amount, entries) === 'highest' ? 'text-yellow-700' : ''
+                    }`}>
                       ₮{entry.amount.toLocaleString()}
                     </p>
                     {entry.status && (

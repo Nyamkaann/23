@@ -15,4 +15,30 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Inter', sans-serif;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.animate-shine {
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #ffffff 27%,
+    #fff7e6 29%,
+    #ffffff 31%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  animation: shine 4s linear infinite;
+}
+
+.hover\:scale-102:hover {
+  transform: scale(1.02);
 } 
