@@ -102,11 +102,23 @@ export default function FundingList() {
               <div className="p-4 sm:p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 sm:space-x-3">
-                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                      <span className="text-indigo-600 font-semibold text-base sm:text-lg">
-                        {entry.name.charAt(0)}
-                      </span>
-                    </div>
+                    {entry.profilePic ? (
+                      <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden">
+                        <Image
+                          src={entry.profilePic}
+                          alt={`${entry.name}'s profile`}
+                          width={56}
+                          height={56}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-blue-100 flex items-center justify-center ring-2 ring-blue-50">
+                        <span className="text-blue-600 font-bold text-xl sm:text-2xl">
+                          {entry.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
                     <div>
                       <h3 className="text-base sm:text-lg font-semibold text-gray-800 break-words">
                         {entry.name}
@@ -119,7 +131,7 @@ export default function FundingList() {
                     </div>
                   </div>
                   <div className="text-right ml-2">
-                    <p className="text-base sm:text-lg font-bold text-indigo-600 whitespace-nowrap">
+                    <p className="text-base sm:text-lg font-bold text-blue-600 whitespace-nowrap">
                       ₮{entry.amount.toLocaleString()}
                     </p>
                     {entry.status && (

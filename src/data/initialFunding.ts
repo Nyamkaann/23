@@ -1,7 +1,7 @@
 export const initialFunding = [
   { id: "1", name: "N*****", amount: 100000 }, //Nyamdorj
   { id: "2", name: "E*****", amount: 100000 }, //Erdka
-  { id: "3", name: "T*****", amount: 50000 }, //Tempo
+  { id: "3", name: "T*****", amount: 50000, profilePic: "/tempo.jpg" }, //Tempo
   { id: "4", name: "N*****", amount: 100000 }, //Namuunzul
   { id: "5", name: "T*****", amount: 50000 }, //Tengis      
   { id: "6", name: "D*****", amount: 50000 }, //Dalii
