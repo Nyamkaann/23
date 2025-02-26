@@ -1,16 +1,17 @@
 export const initialFunding = [
-  { id: "1", name: "Nyamdorj", amount: 100000 },
-  { id: "2", name: "Erdka", amount: 100000 },
-  { id: "3", name: "Tempo", amount: 50000 },
-  { id: "4", name: "Namuunzul", amount: 100000 },
-  { id: "5", name: "Tengis", amount: 50000 },
-  { id: "6", name: "Dalii", amount: 50000 },
-  { id: "7", name: "Marlaa", amount: 50000 },
-  { id: "8", name: "Ariundari", amount: 95000 },
-  { id: "9", name: "Bayraa", amount: 95000 },
-  { id: "10", name: "Bolor", amount: 95000 },
-  { id: "11", name: "Dodkoo", amount: 95000 },
-  { id: "12", name: "Tsolmon", amount: 95000 },
-  { id: "13", name: "Narangoo", amount: 95000 },
-  { id: "14", name: "Nomio", amount: 60000 }
+  { id: "1", name: "*****", amount: 100000 }, //Nyamdorj
+  { id: "2", name: "*****", amount: 100000 }, //Erdka
+  { id: "3", name: "*****", amount: 50000 }, //Tempo
+  { id: "4", name: "*****", amount: 100000 }, //Namuunzul
+  { id: "5", name: "*****", amount: 50000 }, //Tengis      
+  { id: "6", name: "*****", amount: 50000 }, //Dalii
+  { id: "7", name: "*****", amount: 50000 }, //Marlaa
+  { id: "8", name: "*****", amount: 95000 }, //Ariundari
+  { id: "9", name: "*****", amount: 95000 }, //Bayraa
+  { id: "10", name: "*****", amount: 95000 }, //Bolor
+  { id: "11", name: "*****", amount: 95000 }, //Dodkoo
+  { id: "12", name: "*****", amount: 95000 }, //Tsolmon
+  { id: "13", name: "*****", amount: 95000 }, //Narangoo
+  { id: "14", name: "*****", amount: 60000 }, //Nomio
+  { id: "15", name: "*****", amount: 30000 }, //Mino
 ]; 

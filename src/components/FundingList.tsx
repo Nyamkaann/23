@@ -9,7 +9,6 @@ export default function FundingList() {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const total = entries.reduce((sum, entry) => sum + entry.amount, 0);
 
-  // Add this function to format dates consistently
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -114,7 +113,7 @@ export default function FundingList() {
                       </h3>
                       {entry.timestamp && (
                         <p className="text-xs text-gray-500">
-                          {new Date(entry.timestamp).toLocaleDateString()}
+                          {formatDate(new Date(entry.timestamp))}
                         </p>
                       )}
                     </div>
