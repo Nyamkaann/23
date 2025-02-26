@@ -14,4 +14,5 @@ export const initialFunding = [
   { id: "13", name: "******", amount: 95000 }, //Narangoo
   { id: "14", name: "******", amount: 60000 }, //Nomio
   { id: "15", name: "******", amount: 30000 }, //Mino
+  { id: "16", name: "******", amount: 70000 }, //Ba Khulan
 ]; 
