@@ -1,10 +1,22 @@
 import { useState } from 'react';
 import { FundingEntry } from '../types/funding';
 import { initialFunding } from '../data/initialFunding';
+import { bankDetails } from '../data/bankDetails';
+import Image from 'next/image';
 
 export default function FundingList() {
   const [entries] = useState<FundingEntry[]>(initialFunding);
+  const [showBankDetails, setShowBankDetails] = useState(false);
   const total = entries.reduce((sum, entry) => sum + entry.amount, 0);
+
+  // Add this function to format dates consistently
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-6 sm:py-12 px-3 sm:px-6 lg:px-8">
@@ -17,7 +29,69 @@ export default function FundingList() {
           <p className="text-base sm:text-lg text-gray-600">
             Total Contributions: <span className="font-semibold text-indigo-600">₮{total.toLocaleString()}</span>
           </p>
+          <button
+            onClick={() => setShowBankDetails(!showBankDetails)}
+            className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors"
+          >
+            Contribute Now
+          </button>
         </div>
+
+        {/* Bank Details Modal */}
+        {showBankDetails && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl p-6 max-w-md w-full">
+              <div className="flex justify-between items-start mb-4">
+                <h2 className="text-xl font-bold text-gray-900">Bank Transfer Details</h2>
+                <button
+                  onClick={() => setShowBankDetails(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">Bank Name</p>
+                  <p className="font-semibold text-gray-900">{bankDetails.bankName}</p>
+                </div>
+                
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">Account Name</p>
+                  <p className="font-semibold text-gray-900">{bankDetails.accountName}</p>
+                </div>
+                
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">Account Number</p>
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold text-gray-900">{bankDetails.accountNumber}</p>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(bankDetails.accountNumber)}
+                      className="text-blue-500 hover:text-blue-700 text-sm"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-gray-600 mb-4">Scan QR Code with Khan Bank App</p>
+                  <div className="inline-block bg-white p-2 rounded-xl shadow-lg">
+                    <Image
+                      src={bankDetails.qrCode}
+                      alt="Khan Bank QR Code"
+                      width={200}
+                      height={200}
+                      className="rounded-lg"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Cards Grid */}
         <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
@@ -38,12 +112,22 @@ export default function FundingList() {
                       <h3 className="text-base sm:text-lg font-semibold text-gray-800 break-words">
                         {entry.name}
                       </h3>
+                      {entry.timestamp && (
+                        <p className="text-xs text-gray-500">
+                          {new Date(entry.timestamp).toLocaleDateString()}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="text-right ml-2">
                     <p className="text-base sm:text-lg font-bold text-indigo-600 whitespace-nowrap">
                       ₮{entry.amount.toLocaleString()}
                     </p>
+                    {entry.status && (
+                      <span className={`text-xs ${entry.status === 'completed' ? 'text-green-500' : 'text-orange-500'}`}>
+                        {entry.status}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -94,8 +178,12 @@ export default function FundingList() {
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p className="hidden sm:block">Last updated: {new Date().toLocaleDateString()}</p>
-          <p className="sm:hidden">Updated: {new Date().toLocaleDateString()}</p>
+          <p className="hidden sm:block">
+            Last updated: {formatDate(new Date())}
+          </p>
+          <p className="sm:hidden">
+            Updated: {formatDate(new Date())}
+          </p>
         </div>
       </div>
     </div>
